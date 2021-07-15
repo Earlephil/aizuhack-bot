@@ -8,7 +8,7 @@ const textEvent = async (event, client) => {
       // 返信するメッセージを作成
       message = {
         type: 'text',
-        text: 'Hello, world',
+        text: 'Hello, world!!',
       };
       break;
     }
