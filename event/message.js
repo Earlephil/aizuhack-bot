@@ -1,8 +1,60 @@
+const ical2json = require("ical2json");
+const axios = require('axios');
 // テキストメッセージの処理をする関数
 const textEvent = async (event, client) => {
   let message;
   // メッセージのテキストごとに条件分岐
   switch (event.message.text) {
+    //'課題リスト'というメッセージが送られてきた時
+    case '課題リスト': {
+      const iCalData = await axios.get('https://elms.u-aizu.ac.jp/calendar/export_execute.php?userid=7088&authtoken=2ee448ddec72b866f09f6652594c005708629cfb&preset_what=all&preset_time=recentupcoming');
+      const output = ical2json.convert(iCalData.data);
+      const VEvent = output.VCALENDAR[0].VEVENT;
+      let msg = "";
+      message = {
+        type: "template",
+        altText: "this is a carousel template",
+        template: {
+          type: "carousel",
+          imageSize: "contain",
+          columns: [
+          ]
+        }
+      };
+      output.VCALENDAR[0].VEVENT.forEach(element => {
+        const date = new Date();
+        let DTEND = (element.DTEND).slice(0, 4) + '-' + (element.DTEND).slice(4);
+        DTEND = DTEND.slice(0, 7) + '-' + DTEND.slice(7);
+        DTEND = DTEND.slice(0, 13) + ':' + DTEND.slice(13);
+        DTEND = DTEND.slice(0, 16) + ':' + DTEND.slice(16);
+        DTEND = new Date(DTEND);
+        if (date < DTEND) {
+          DTEND = new Date(DTEND.toLocaleString({ timeZone: 'Asia/Tokyo' }));
+          msg = JSON.stringify(element);
+         /* console.log(message.template.columns); */
+          const column = {
+            title: element.CATEGORIES,
+            text: "課題: "+ element.SUMMARY + "\n" + "期限:　" + element.DTEND,
+            actions: [
+              {
+                type: "uri",
+                label: "LMSで提出",
+                uri: "https://elms.u-aizu.ac.jp/mod/assign/view.php?id=34007&action=editsubmission"
+              }
+            ]
+          } 
+          // console.log("課題: " + element.SUMMARY + "\n" + "期限:　" + element.DTEND);
+          // return;
+            message.template.columns.push(column); 
+            console.log(message.template.columns);
+        }
+        /* console.log(message.template.columns); */
+          message.template.columns.splice(3);
+          
+      });
+      // 返信するメッセージを作成
+      break;
+    }
     // 'こんにちは'というメッセージが送られてきた時
     case 'こんにちは': {
       // 返信するメッセージを作成
