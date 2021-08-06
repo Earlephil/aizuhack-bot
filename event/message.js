@@ -39,28 +39,104 @@ const textEvent = async (event, client) => {
         if (date < DTEND) {
           DTEND = new Date(DTEND.toLocaleString({ timeZone: 'Asia/Tokyo' }));
           msg = JSON.stringify(element);
-         /* console.log(message.template.columns); */
+          /* console.log(message.template.columns); */
           const column = {
             title: element.CATEGORIES,
-            text: "課題: "+ element.SUMMARY + "\n" + "期限:　" + element.DTEND,
+            text: "課題: " + element.SUMMARY + "\n" + "期限:　" + element.DTEND,
             actions: [
               {
                 type: "uri",
                 label: "LMSで提出",
-                uri: "https://elms.u-aizu.ac.jp/mod/assign/view.php?id=34007&action=editsubmission"
+                uri: "https://elms.u-aizu.ac.jp/login/index.php"
               }
             ]
-          } 
+          }
           // console.log("課題: " + element.SUMMARY + "\n" + "期限:　" + element.DTEND);
           // return;
-            message.template.columns.push(column); 
-            console.log(message.template.columns);
+          message.template.columns.push(column);
+          console.log(message.template.columns);
         }
         /* console.log(message.template.columns); */
-          message.template.columns.splice(3);
-          
+        message.template.columns.splice(3);
+
       });
       // 返信するメッセージを作成
+      break;
+    }
+    //'サイト一覧'というメッセージが送られてきたとき
+    case 'サイト一覧': {
+      message = {
+        "type": "template",
+        "altText": "this is a carousel template",
+        "template": {
+          "type": "carousel",
+          "columns": [
+            {
+              "title": "学務システム",
+              "text": "サイトを選んでください",
+              "actions": [
+                {
+                  "type": "uri",
+                  "label": "カレンダー",
+                  "uri": "https://csweb.u-aizu.ac.jp/campusweb/campusportal.do?page=main&tabId=kh"
+                },
+                {
+                  "type": "uri",
+                  "label": "成績",
+                  "uri": "https://csweb.u-aizu.ac.jp/campusweb/campusportal.do?page=main&tabId=si"
+                },
+                {
+                  "type": "uri",
+                  "label": "シラバス2021",
+                  "uri": "http://web-ext.u-aizu.ac.jp/official/curriculum/syllabus/1_J_000.html"
+                }
+              ]
+            },
+            {
+              "title": "LMS",
+              "text": "サイトを選んでください",
+              "actions": [
+                {
+                  "type": "uri",
+                  "label": "ダッシュボード",
+                  "uri": "https://elms.u-aizu.ac.jp/my/"
+                },
+                {
+                  "type": "uri",
+                  "label": "課題カレンダー",
+                  "uri": "https://elms.u-aizu.ac.jp/calendar/view.php?view=month"
+                },
+                {
+                  "type": "uri",
+                  "label": "評定",
+                  "uri": "https://elms.u-aizu.ac.jp/grade/report/overview/index.php"
+                }
+              ]
+            },
+            {
+              "title": "English",
+              "text": "サイトを選んでください",
+              "actions": [
+                {
+                  "type": "uri",
+                  "label": "M-Reader",
+                  "uri": "https://mreader.org/studentpage.php?cid=41699"
+                },
+                {
+                  "type": "uri",
+                  "label": "Really English",
+                  "uri": "https://u-aizu.reallyenglish.jp/"
+                },
+                {
+                  "type": "uri",
+                  "label": "MARUZEN",
+                  "uri": "https://elib.maruzen.co.jp/elib/html/Top?0"
+                }
+              ]
+            }
+          ]
+        }
+      };
       break;
     }
     // 'こんにちは'というメッセージが送られてきた時
