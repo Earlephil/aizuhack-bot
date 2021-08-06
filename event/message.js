@@ -5,6 +5,14 @@ const textEvent = async (event, client) => {
   let message;
   // メッセージのテキストごとに条件分岐
   switch (event.message.text) {
+     // '使用方法というメッセージが送られてきた時' //
+     case '使用方法': {
+      message = { 
+        type: 'text',
+        text: '使用方法について\n課題関連の操作を行いたい場合は、「課題」と送信してください。\nよく使うサイト一覧を表示したい場合は、「サイト一覧」と送信してください。\n授業関連の操作を行いたい場合は、「授業」と送信してください。',
+      };
+      break;
+    }
     //'課題リスト'というメッセージが送られてきた時
     case '課題リスト': {
       const iCalData = await axios.get('https://elms.u-aizu.ac.jp/calendar/export_execute.php?userid=7088&authtoken=2ee448ddec72b866f09f6652594c005708629cfb&preset_what=all&preset_time=recentupcoming');
@@ -64,13 +72,7 @@ const textEvent = async (event, client) => {
       };
       break;
     }
-    // '使用方法' //
-    case '使用方法': {
-      message = {
-        type: 'text',
-        text: '使用方法について\n課題関連の操作を行いたい場合は、「課題」と送信してください。\nよく使うサイト一覧を表示したい場合は、「サイト一覧」と送信してください。\n授業関連の操作を行いたい場合は、「授業」と送信してください。'
-      }
-    }
+   
     // '複数メッセージ'というメッセージが送られてきた時
     case '複数メッセージ': {
       // 返信するメッセージを作成
