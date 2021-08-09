@@ -17,7 +17,7 @@ const textEvent = async (event, client) => {
     case 'その他': {
       message = {
         type: 'text',
-        text: 'ほめてほしい時は「ほめて！」と送信してください（！の数を増やすと、もっとほめてくれます）\n',
+        text: 'ほめてほしい時は「ほめて！」と送信してください（！の数を増やすと、もっとほめてくれます。以下同じ）\n狂ってほしいときは「狂って！」と送信してください',
       };
       break;
     }
@@ -61,6 +61,47 @@ const textEvent = async (event, client) => {
       };
       break;
     }
+
+    case '狂って！': {
+      message = {
+        type: 'text',
+        text: '(☝ ՞ਊ ՞)☝ｷｴｴｴｴｴwww',
+      };
+      break;
+    }
+
+    case '狂って！！': {
+      message = {
+        type: 'text',
+        text: 'ﾄﾞｩルルルㇽㇽㇽㇽㇽㇽㇽ三└(┐卍^o^)卍ﾄﾞｩﾙﾙﾙﾙﾙ',
+      };
+      break;
+    }
+
+    case '狂って！！！': {
+      message = {
+        type: 'text',
+        text: '( ﾟ∀ﾟ)ｱﾊﾊ八八ﾉヽﾉヽﾉ ＼/ ＼',
+      };
+      break;
+    }
+
+    case '狂って！！！！': {
+      message = {
+        type: 'text',
+        text: '＿人人人人人人人人人人人人＿\n＞あああァァああアアあああ＜\n＞ぁあぁアアアァあぁああァ＜\n￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y^￣',
+      };
+      break;
+    }
+
+    case '狂って！！！！！': {
+      message = {
+        type: 'text',
+        text: 'くぁｗせｄｒｆｔｇｙふじこｌｐ',
+      };
+      break;
+    }
+
     //'課題リスト'というメッセージが送られてきた時
     case '課題リスト': {
       const iCalData = await axios.get('https://elms.u-aizu.ac.jp/calendar/export_execute.php?userid=7088&authtoken=2ee448ddec72b866f09f6652594c005708629cfb&preset_what=all&preset_time=recentupcoming');
