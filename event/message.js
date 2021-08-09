@@ -17,7 +17,7 @@ const textEvent = async (event, client) => {
     case 'その他': {
       message = {
         type: 'text',
-        text: 'ほめてほしい時は「ほめて！」と送信してください（！の数を増やすと、もっとほめてくれます。以下同じ）\n狂ってほしいときは「狂って！」と送信してください',
+        text: 'ほめてほしいときは「ほめて！」\n狂ってほしいときは「狂って！」\n一緒に悲しんでほしいとき・botを泣かせたいときは、「ぴえん！」\n慰めてほしいときは、「ぱおん！」\nと送信してください。（！の数を増やすとメッセージが変わります）',
       };
       break;
     }
@@ -98,6 +98,87 @@ const textEvent = async (event, client) => {
       message = {
         type: 'text',
         text: 'くぁｗせｄｒｆｔｇｙふじこｌｐ',
+      };
+      break;
+    }
+
+    case 'ぴえん！': {
+      message = {
+        type: 'text',
+        text: '(´；ω；｀)ﾌﾞﾜｯ',
+      };
+      break;
+    }
+
+    case 'ぴえん！！': {
+      message = {
+        type: 'text',
+        text: '(TдT) ｳｩ…',
+      };
+      break;
+    }
+
+    case 'ぴえん！！！': {
+      message = {
+        type: 'text',
+        text: '｡･ﾟ･(ﾉД`)･ﾟ･｡ うえええん',
+      };
+      break;
+    }
+
+    case 'ぴえん！！！！': {
+      message = {
+        type: 'text',
+        text: '｡ﾟヽ（ﾟ｀Д´ﾟ）ﾉﾟ｡ｳｧｧｧﾝ｡* ﾟ + ｡･ﾟ･｡･ヽ（ ﾟ｀Д´ﾟ）ﾉｳﾜｧｧｧｧｧｧﾝ',
+      };
+      break;
+    }
+
+    case 'ぴえん！！！！！': {
+      message = {
+        type: 'text',
+        text: 'うあﾞぁあ ･ﾟ･(´Д⊂ヽ･ﾟ･ あﾞぁあぁﾞああぁぁうあﾞぁあﾞぁぁ',
+      };
+      break;
+    }
+
+
+    case 'ぱおん！': {
+      message = {
+        type: 'text',
+        text: '(｡pωq｡)ヽ(ﾟωﾟ｀*)･･･ｮﾁｮﾁ',
+      };
+      break;
+    }
+
+    case 'ぱおん！！': {
+      message = {
+        type: 'text',
+        text: '(´ё｀ｿﾝﾅｶｵ､ｽﾝﾅ!!m(~Д~)ｴｴｴｴﾝ',
+      };
+      break;
+    }
+
+    case 'ぱおん！！！': {
+      message = {
+        type: 'text',
+        text: '＼(*゜ロ＼)*゜ロ＼)*゜ロ＼)ど...ど...ど...どんまい!',
+      };
+      break;
+    }
+
+    case 'ぱおん！！！！': {
+      message = {
+        type: 'text',
+        text: '（　＾ω＾）つ□ 涙拭けお',
+      };
+      break;
+    }
+
+    case 'ぱおん！！！！！': {
+      message = {
+        type: 'text',
+        text: 'ヽ(~-~(。。 )ゝ元気だしやぁ～',
       };
       break;
     }
