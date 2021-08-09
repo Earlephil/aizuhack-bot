@@ -5,9 +5,9 @@ const textEvent = async (event, client) => {
   let message;
   // メッセージのテキストごとに条件分岐
   switch (event.message.text) {
-     // '使用方法というメッセージが送られてきた時' //
-     case '使用方法': {
-      message = { 
+    // '使用方法というメッセージが送られてきた時' //
+    case '使用方法': {
+      message = {
         type: 'text',
         text: '使用方法について\n課題関連の操作を行いたい場合は、「課題」と送信してください。\nよく使うサイト一覧を表示したい場合は、「サイト一覧」と送信してください。\n授業関連の操作を行いたい場合は、「授業」と送信してください。\n その他のメッセージで癒されたい場合は、まず「その他」と送信してください',
       };
@@ -228,6 +228,217 @@ const textEvent = async (event, client) => {
       };
       break;
     }
+
+    // '課題'というメッセージが送られてきた時
+    case '課題': {
+      // 返信するメッセージを作成
+      message = {
+        type: 'flex',
+        altText: 'Flex Message',
+        contents: {
+          "type": "bubble",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "color": "#ffffff",
+                    "size": "xxl",
+                    "text": "課題",
+                    "weight": "bold",
+                    "flex": 0,
+                    "margin": "lg"
+                  },
+                  {
+                    "type": "text",
+                    "text": "の知りたい内容",
+                    "color": "#FFFFFF",
+                    "size": "lg",
+                    "gravity": "bottom"
+                  }
+                ],
+                "offsetTop": "30%",
+                "position": "absolute",
+                "offsetStart": "20px"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "color": "#000000",
+                    "size": "sm",
+                    "text": "以下から選択してください。",
+                    "align": "center"
+                  }
+                ],
+                "offsetTop": "70px"
+              }
+            ],
+            "backgroundColor": "#1B96B1",
+            "height": "140px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "text": "完了した課題を入力",
+                  "label": "完了した課題を入力"
+                },
+                "color": "#D1EAEF",
+                "style": "secondary",
+                "margin": "0px"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "課題のリストに追加",
+                  "text": "課題のリストに追加"
+                },
+                "color": "#D1EAEF",
+                "margin": "10px",
+                "style": "secondary"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "text": "課題提出状況",
+                  "label": "課題提出状況"
+                },
+                "color": "#D1EAEF",
+                "margin": "10px",
+                "style": "secondary"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "課題リスト",
+                  "text": "課題リスト"
+                },
+                "color": "#D1EAEF",
+                "margin": "10px",
+                "style": "secondary"
+              }
+            ]
+          },
+          "size": "kilo"
+        }
+      };
+      break;
+    }
+
+    // '授業'というメッセージが送られてきた時
+    case '授業': {
+      // 返信するメッセージを作成
+      message = {
+        type: 'flex',
+        altText: 'Flex Message',
+        contents: {
+          "type": "bubble",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "color": "#ffffff",
+                    "size": "xxl",
+                    "text": "授業",
+                    "weight": "bold",
+                    "flex": 0,
+                    "margin": "lg"
+                  },
+                  {
+                    "type": "text",
+                    "text": "の知りたい内容",
+                    "color": "#FFFFFF",
+                    "size": "lg",
+                    "gravity": "bottom"
+                  }
+                ],
+                "offsetTop": "30%",
+                "position": "absolute",
+                "offsetStart": "20px"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "color": "#000000",
+                    "size": "sm",
+                    "text": "以下から選択してください。",
+                    "align": "center"
+                  }
+                ],
+                "offsetTop": "70px"
+              }
+            ],
+            "height": "140px",
+            "backgroundColor": "#FFA24D"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "text": "明日の授業",
+                  "label": "明日の授業"
+                },
+                "color": "#FFEEDF",
+                "style": "secondary"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "欠席数確認",
+                  "text": "欠席数確認"
+                },
+                "color": "#FFEEDF",
+                "margin": "10px",
+                "style": "secondary"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "text": "授業欠席の入力",
+                  "label": "授業欠席の入力"
+                },
+                "color": "#FFEEDF",
+                "margin": "10px",
+                "style": "secondary"
+              }
+            ]
+          },
+          "size": "kilo"
+        }
+      };
+      break;
+    }
+
     // 'こんにちは'というメッセージが送られてきた時
     case 'こんにちは': {
       // 返信するメッセージを作成
@@ -237,7 +448,7 @@ const textEvent = async (event, client) => {
       };
       break;
     }
-   
+
     // '複数メッセージ'というメッセージが送られてきた時
     case '複数メッセージ': {
       // 返信するメッセージを作成
