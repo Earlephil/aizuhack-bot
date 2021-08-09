@@ -33,7 +33,7 @@ const textEvent = async (event, client) => {
     case 'ほめて！！': {
       message = {
         type: 'text',
-        text:　'今日も生きててえらい ｡ﾟ( ﾟஇдஇﾟ)ﾟ。',
+        text:　'今日も生きててえらい\n｡ﾟ( ﾟஇдஇﾟ)ﾟ。',
       };
       break;
     }
@@ -41,7 +41,7 @@ const textEvent = async (event, client) => {
     case 'ほめて！！！': {
       message = {
         type: 'text',
-        text: 'おつかれさま、がんばったねえ～(σ⁎˃ᴗ˂⁎)σண♡*',
+        text: 'おつかれさま、がんばったねえ\n(σ⁎˃ᴗ˂⁎)σண♡*',
       };
       break;
     }
