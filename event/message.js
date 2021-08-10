@@ -1,10 +1,63 @@
 const ical2json = require("ical2json");
 const axios = require('axios');
+const dbAPI = 'https://sheetdb.io/api/v1/3cdihk7sl6quk';
 // テキストメッセージの処理をする関数
 const textEvent = async (event, client) => {
+  // ユーザーIDを取得
+  const { userId } = event.source;
+  // DBからユーザーのデータを取得
+  const data = (await axios.get(`${dbAPI}/search?userId=${userId}`)).data[0];
+  // もしそのユーザーのデータが存在する場合
+  if (data) {
+    // もしcontextがmemoModeだったら
+    if (data.context === 'memoMode') {
+      // DBへメッセージのデータを追加してcontextを空にする
+      await axios.put(`${dbAPI}/userId/${userId}`, { data: [{ message: event.message.text, context: '' }] });
+      // index関数に返信するメッセージを返す
+      return {
+        type: 'text',
+        text: `"${event.message.text}"を課題リストに追加しました`,
+      };
+    }
+  }
+
   let message;
+
   // メッセージのテキストごとに条件分岐
   switch (event.message.text) {
+
+    // 'メモ'というメッセージが送られてきた時
+    case '課題提出状況': {
+      // ユーザーのデータがDBに存在する時
+      if (data) {
+        // 返信するメッセージを作成
+        message = {
+          type: 'text',
+          text: `『課題リスト』\n\n${data.message}`,
+        };
+      } else {
+        // 返信するメッセージを作成
+        message = {
+          type: 'text',
+          text: '課題は記入されていません',
+        };
+      }
+      break;
+    }
+    // '課題リスト追加'というメッセージが送られてきた時
+    case '課題リスト追加': {
+      if (data) {
+        await axios.put(`${dbAPI}/userId/${userId}`, { data: [{ context: 'memoMode' }] });
+      } else {
+        await axios.post(dbAPI, { data: [{ userId, context: 'memoMode' }] });
+      }
+      // 返信するメッセージを作成
+      message = {
+        type: 'text',
+        text: '追加したい課題を送信してください',
+      };
+      break;
+    }
     // '使用方法というメッセージが送られてきた時' //
     case '使用方法': {
       message = {
@@ -33,7 +86,7 @@ const textEvent = async (event, client) => {
     case 'ほめて！！': {
       message = {
         type: 'text',
-        text:　'今日も生きててえらい\n｡ﾟ( ﾟஇдஇﾟ)ﾟ。',
+        text: '今日も生きててえらい\n｡ﾟ( ﾟஇдஇﾟ)ﾟ。',
       };
       break;
     }
@@ -183,8 +236,8 @@ const textEvent = async (event, client) => {
       break;
     }
 
-    //'課題リスト'というメッセージが送られてきた時
-    case '課題リスト': {
+    //'LMS課題リスト'というメッセージが送られてきた時
+    case 'LMS課題リスト': {
       const iCalData = await axios.get('https://elms.u-aizu.ac.jp/calendar/export_execute.php?userid=7088&authtoken=2ee448ddec72b866f09f6652594c005708629cfb&preset_what=all&preset_time=recentupcoming');
       const output = ical2json.convert(iCalData.data);
       const VEvent = output.VCALENDAR[0].VEVENT;
@@ -226,6 +279,19 @@ const textEvent = async (event, client) => {
           message.template.columns.push(column);
           console.log(message.template.columns);
         }
+        //LMS上に課題がない時
+        /*else {
+          column = {
+            text: 'LMS上に課題はありません',
+            actions: [
+              {
+                type: "uri",
+                label: "LMSで提出",
+                uri: "https://elms.u-aizu.ac.jp/login/index.php"
+              }
+            ]
+          }
+        }*/
         /* console.log(message.template.columns); */
         message.template.columns.splice(3);
 
@@ -248,12 +314,12 @@ const textEvent = async (event, client) => {
                 {
                   "type": "uri",
                   "label": "カレンダー",
-                  "uri": "https://csweb.u-aizu.ac.jp/campusweb/campusportal.do?page=main&tabId=kh"
+                  "uri": "https://csweb.u-aizu.ac.jp/campusweb/campussmart.do?page=main&tabId=kh"
                 },
                 {
                   "type": "uri",
                   "label": "成績",
-                  "uri": "https://csweb.u-aizu.ac.jp/campusweb/campusportal.do?page=main&tabId=si"
+                  "uri": "https://csweb.u-aizu.ac.jp/campusweb/campussmart.do?page=main&tabId=si"
                 },
                 {
                   "type": "uri",
@@ -290,12 +356,12 @@ const textEvent = async (event, client) => {
                 {
                   "type": "uri",
                   "label": "M-Reader",
-                  "uri": "https://mreader.org/studentpage.php?cid=41699"
+                  "uri": "https://mreader.org/index.php"
                 },
                 {
                   "type": "uri",
                   "label": "Really English",
-                  "uri": "https://u-aizu.reallyenglish.jp/"
+                  "uri": "https://u-aizu.reallyenglish.jp/login"
                 },
                 {
                   "type": "uri",
@@ -385,7 +451,7 @@ const textEvent = async (event, client) => {
                 "action": {
                   "type": "message",
                   "label": "課題のリストに追加",
-                  "text": "課題のリストに追加"
+                  "text": "課題リスト追加"
                 },
                 "color": "#D1EAEF",
                 "margin": "10px",
@@ -406,8 +472,8 @@ const textEvent = async (event, client) => {
                 "type": "button",
                 "action": {
                   "type": "message",
-                  "label": "課題リスト",
-                  "text": "課題リスト"
+                  "label": "LMS上の課題",
+                  "text": "LMS課題リスト"
                 },
                 "color": "#D1EAEF",
                 "margin": "10px",
